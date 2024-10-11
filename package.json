@@ -2,10 +2,11 @@
   "name": "proyek-teknologi-informasi",
   "version": "1.0.0",
   "main": "index.js",
-"scripts": {
-  "start": "node server/app.js",
-  "dev": "nodemon server/app.js"
-},
+  "scripts": {
+    "start": "node server/app.js",
+    "dev": "nodemon server/app.js",
+    "build-css" : "npx tailwindcss -i src/css/input.css -o src/css/output.css --watch" 
+  },
   "author": "",
   "license": "ISC",
   "description": "",
@@ -15,6 +16,7 @@
     "socket.io": "^4.8.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "tailwindcss": "^3.4.13"
   }
 }
