@@ -8,6 +8,6 @@ const app = express();
 
 // Jalankan server
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
