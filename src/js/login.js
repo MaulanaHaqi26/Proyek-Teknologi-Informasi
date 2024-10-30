@@ -1,26 +1,51 @@
-function redirectToRegister() {
-    window.location.href = "register.html"; // Redirects to register.html
-}
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const loginButton = document.getElementById("login-main");
+const togglePassword = document.getElementById('togglePassword');
 
-// Step 2: Add an event listener to the button
-document.getElementById("btn-ToRegis").addEventListener("click", redirectToRegister);
+togglePassword.addEventListener('click',
+    function () {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
 
-// function redirectToMain() {
-//     window.location.href = "main.html"; // Redirects to register.html
-// }
+        this.classList.toggle('bi-eye');
+        this.classList.toggle('bi-eye-slash');
+    });
 
-// // Step 2: Add an event listener to the button
-// document.getElementById("login_button").addEventListener("click", redirectToMain);
+loginButton.addEventListener("click", function (event) {
+    event.preventDefault();
 
-document.getElementById("login_button").addEventListener("click", function () {
-    const username = document.getElementById("username").value; 
+    const isValidEmail = validateEmail(emailInput.value);
+    const isValidPassword = validatePassword(passwordInput.value);
 
-    const password = document.getElementById("password").value;
-
-    if (username === 'admin' && password === 'succes123') {
+    if (isValidEmail && isValidPassword) {
+        // Login successful, redirect to main.html
         window.location.href = "main.html";
     } else {
-        // Handle incorrect login (e.g., display error message)
-        alert("Invalid username or password.");
+        if (!isValidEmail) {
+            emailInput.classList.add("error");
+        } else {
+            emailInput.classList.remove("error");
+        }
+        if (!isValidPassword) {
+            passwordInput.classList.add("error");
+        } else {
+            passwordInput.classList.remove("error");
+        }
     }
 });
+
+function redirectToRegister() {
+    window.location.href = "register.html"; 
+}
+document.getElementById("btn-ToRegis").addEventListener("click", redirectToRegister);
+
+
+function validateEmail(email) {
+    return email.trim() !== "" && email.includes("@");
+}
+
+function validatePassword(password) {
+    const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~-]).{8,}$/;
+    return regex.test(password);
+}
