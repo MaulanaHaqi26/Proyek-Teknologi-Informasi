@@ -1,9 +1,19 @@
+const passwordInput = document.getElementById("password");
+const togglePassword = document.getElementById('togglePassword');
+
+togglePassword.addEventListener('click',
+    function () {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+
+        this.classList.toggle('bi-eye');
+        this.classList.toggle('bi-eye-slash');
+    });
+
 function validateRegisterForm() {
     const firstName = document.getElementById("firstName").value;
     const lastName = document.getElementById("lastName").value;
     const email = document.getElementById("email").value;
-    const passwordInput = document.getElementById("password");
-    const togglePassword = document.getElementById('togglePassword');
 
     // Validate first name
     if (firstName.trim() === "") {
@@ -43,15 +53,6 @@ function validateRegisterForm() {
     return isValid;
 
 }
-
-togglePassword.addEventListener('click',
-    function () {
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', type);
-
-        this.classList.toggle('bi-eye');
-        this.classList.toggle('bi-eye-slash');
-    });
 
 
 function isValidEmail(email) {
