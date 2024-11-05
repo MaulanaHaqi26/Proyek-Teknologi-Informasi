@@ -1,0 +1,119 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pH Monitoring System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h1 class="text-2xl font-bold mb-6">pH Monitoring System</h1>
+            
+            <!-- Current pH Value -->
+            <div class="mb-8">
+                <h2 class="text-lg font-semibold mb-2">Current pH Level</h2>
+                <div class="text-4xl font-bold text-center p-4 bg-gray-50 rounded-lg" id="currentPh">
+                    -- 
+                </div>
+            </div>
+
+            <!-- pH Status -->
+            <div class="mb-8">
+                <h2 class="text-lg font-semibold mb-2">Status</h2>
+                <div class="text-xl text-center p-3 rounded-lg" id="phStatus">
+                    Waiting for reading...
+                </div>
+            </div>
+
+            <!-- Graph -->
+            <div class="mb-8">
+                <h2 class="text-lg font-semibold mb-2">pH History</h2>
+                <canvas id="phChart" class="w-full h-64"></canvas>
+            </div>
+
+            <!-- Last Updated -->
+            <div class="text-sm text-gray-500 text-center" id="lastUpdated">
+                Last updated: --
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Connect to WebSocket server
+        const socket = io('http://localhost:3000');
+        
+        // Initialize Chart.js
+        const ctx = document.getElementById('phChart').getContext('2d');
+        const phChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'pH Level',
+                    data: [],
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 0,
+                        max: 14
+                    }
+                }
+            }
+        });
+
+        // Update pH status with color coding
+        function updatePhStatus(ph) {
+            const statusElement = document.getElementById('phStatus');
+            if (ph < 6.5) {
+                statusElement.textContent = 'Acidic - Action Required';
+                statusElement.className = 'text-xl text-center p-3 rounded-lg bg-red-100 text-red-700';
+            } else if (ph > 7.5) {
+                statusElement.textContent = 'Alkaline - Action Required';
+                statusElement.className = 'text-xl text-center p-3 rounded-lg bg-red-100 text-red-700';
+            } else {
+                statusElement.textContent = 'Normal Range';
+                statusElement.className = 'text-xl text-center p-3 rounded-lg bg-green-100 text-green-700';
+            }
+        }
+
+        // Handle incoming pH data
+        socket.on('phData', (data) => {
+            const { ph, timestamp } = data;
+            
+            // Update current pH display
+            document.getElementById('currentPh').textContent = ph.toFixed(2);
+            
+            // Update status
+            updatePhStatus(ph);
+            
+            // Update last updated time
+            document.getElementById('lastUpdated').textContent = 
+                `Last updated: ${new Date(timestamp).toLocaleString()}`;
+            
+            // Update chart
+            phChart.data.labels.push(new Date(timestamp).toLocaleTimeString());
+            phChart.data.datasets[0].data.push(ph);
+            
+            // Keep only last 10 readings
+            if (phChart.data.labels.length > 10) {
+                phChart.data.labels.shift();
+                phChart.data.datasets[0].data.shift();
+            }
+            
+            phChart.update();
+        });
+    </script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>

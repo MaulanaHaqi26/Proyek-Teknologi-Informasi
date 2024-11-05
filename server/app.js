@@ -4,7 +4,6 @@ import 'dotenv/config';
 
 // Setup express
 const app = express();
-
 const connection = await dbPool.getConnection();
     
 // Cek status database dengan query sederhana
