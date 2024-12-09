@@ -1,5 +1,5 @@
-PORT=5000
-DB_HOST=localhost
-DB_USERNAME="root"
-DB_PASSWORD=
-DB_NAME=pakle_db
+PORT=xxx
+DB_HOST=xxx
+DB_USERNAME=xxx
+DB_PASSWORD=xxx
+DB_NAME=xxx
