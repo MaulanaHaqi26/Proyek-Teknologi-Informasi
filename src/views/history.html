@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fish Monitoring System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50 flex justify-center items-center min-h-screen">
+  <div class="bg-[#002D74] text-white shadow-lg rounded-lg p-6 max-w-5xl w-full">
+    <div class="text-center mb-6">
+      <h1 class="text-2xl font-bold">Fish Monitoring System</h1>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- Date and Motor Servo Delay -->
+      <div class="bg-white p-4 rounded-lg shadow-md text-center text-[#002D74]">
+        <h3 class="text-lg font-semibold mb-3">Date & Servo Delay</h3>
+        <input type="date" class="w-full border border-gray-300 rounded-md p-2 mb-3" placeholder="Select Date">
+        <input type="number" class="w-full border border-gray-300 rounded-md p-2" placeholder="Servo Delay (ms)">
+      </div>
+      <!-- Tank Fish Food Input -->
+      <div class="bg-white p-4 rounded-lg shadow-md text-center text-[#002D74]">
+        <h3 class="text-lg font-semibold mb-3">Fish Food (g)</h3>
+        <input type="number" class="w-full border border-gray-300 rounded-md p-2" placeholder="Enter Fish Food Amount">
+      </div>
+      <!-- Fish Age Update -->
+      <div class="bg-white p-4 rounded-lg shadow-md text-center text-[#002D74]">
+        <h3 class="text-lg font-semibold mb-3">Fish Age (Days)</h3>
+        <input type="number" class="w-full border border-gray-300 rounded-md p-2" placeholder="Enter Fish Age">
+      </div>
+    </div>
+
+    <!-- Diagram Section -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+      <!-- pH Measurement Diagram -->
+      <div class="bg-white p-4 rounded-lg shadow-md text-center text-[#002D74]">
+        <h3 class="text-lg font-semibold mb-3">pH Measurement Diagram</h3>
+        <canvas id="phDiagram" class="w-full bg-blue-50 rounded-md"></canvas>
+        <div id="phValue" class="text-lg font-semibold mt-2">pH: </div>
+        <div id="realTimeDate" class="text-sm text-gray-500 mt-2">Date: </div>
+      </div>
+      <!-- Water Level Diagram -->
+      <div class="bg-white p-4 rounded-lg shadow-md text-center text-[#002D74]">
+        <h3 class="text-lg font-semibold mb-3">Water Level Diagram</h3>
+        <canvas id="waterLevelDiagram" class="w-full bg-blue-50 rounded-md"></canvas>
+      </div>
+    </div>
+
+    <!-- Update Button -->
+    <div class="text-center mt-6">
+      <button id="updateBtn"
+        class="bg-white text-[#002D74] py-2 px-6 rounded-lg shadow-md hover:bg-gray-100 transition duration-200 transform hover:scale-105">
+        Update
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center mt-6">
+      <p class="text-sm text-white">© 2024 Fish Monitoring | Simple and Efficient</p>
+    </div>
+  </div>
+
+  <script src="../js/history.js"></script>
+</body>
+
+</html>
